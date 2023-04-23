@@ -28,9 +28,15 @@ const generatePDF = (e) => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "pt", "a4");
   
-fetch('./teste.txt')
+fetch('../teste.txt')
   .then(response => response.text())
   .then(txt => {
+
+    txt = txt.replace('[name]', client_name.value);
+      txt = txt.replace('[RG]', client_rg.value);
+      txt = txt.replace('[CPF]', client_cpf.value);
+      txt = txt.replace('[%]', client_discount.value);
+
     let textLines = doc.setFont('times', 'normal')
       .setFontSize(12)
       .splitTextToSize(txt, cmToPt(19.5));
