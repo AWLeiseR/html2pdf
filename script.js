@@ -9,13 +9,19 @@ const generatePDF = (e) => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "pt", "letter");
 
-  doc.html(document.body, {
-    callback: function (doc) {
-      doc.save();
-    },
-  });
+  // Busque o arquivo HTML e carregue o conteúdo dele
+  fetch('./teste.html')
+    .then(response => response.text())
+    .then(html => {
+      // Carregue o conteúdo HTML no documento PDF
+      doc.html(html, {
+        callback: function (doc) {
+          doc.save();
+        },
+      });
+    });
 };
 
 const client_button = document
   .getElementById("input_client_button")
-  .addEventListener("click", generatePDF);
+  .addEventListener("click", generatePDF); 
