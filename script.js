@@ -12,6 +12,16 @@ function cmToPx(valorEmCm) {
   return valorEmPx;
 }
 
+function ptToPx(pt) {
+  const px = pt * (96 / 72);
+  return px;
+}
+
+function cmToPt(cm) {
+  const pt = cm * 28.3465;
+  return pt;
+}
+
 
 const generatePDF = (e) => {
   e.preventDefault();
@@ -23,7 +33,7 @@ fetch('./teste.txt')
   .then(txt => {
     let textLines = doc.setFont('times', 'normal')
       .setFontSize(12)
-      .splitTextToSize(txt, cmToPx(14.5));
+      .splitTextToSize(txt, cmToPt(19.5));
     // adiciona cada linha ao documento PDF
     for (let i = 0; i < textLines.length; i++) {
       doc.text(textLines[i], 20, 30 + i * 20);
