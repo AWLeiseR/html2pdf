@@ -35,7 +35,7 @@ fetch('../teste.txt')
     txt = txt.replace('[name]', client_name.value);
       txt = txt.replace('[RG]', client_rg.value);
       txt = txt.replace('[CPF]', client_cpf.value);
-      txt = txt.replace('[%]', client_discount.value);
+      txt = txt.replace('[%]', client_discount.value + '%');
 
     let textLines = doc.setFont('times', 'normal')
       .setFontSize(12)
