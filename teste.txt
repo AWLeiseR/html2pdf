@@ -1,0 +1,19 @@
+Contrato de Locação de Imóvel
+
+LOCADOR: João da Silva, residente e domiciliado(a) na Rua dos Girassóis, 123, Bairro Jardim das Flores, São Paulo-SP.
+
+LOCATÁRIO: [name], CPF [CPF], RG [RG], residente e domiciliado(a) na Rua das Acácias, 456, Bairro Vila Nova, Rio de Janeiro-RJ.
+
+IMÓVEL: O locador concede ao locatário o uso do imóvel localizado na Rua das Hortênsias, 789, Bairro Centro, Belo Horizonte-MG, para fins residenciais.
+
+PRAZO: A locação terá início em 01/05/2023 e término em 01/05/2024.
+
+VALOR E FORMA DE PAGAMENTO: O valor mensal do aluguel será de R$ 1.500,00, com desconto de [%] a ser pago até o dia 05 de cada mês, através de depósito em conta bancária.
+
+ENCARGOS: O locatário será responsável pelo pagamento das despesas de consumo de água, luz, gás e telefone.
+
+VISTORIA: O imóvel será entregue ao locatário em perfeito estado de conservação, e a vistoria será realizada na presença das partes, no momento da entrega das chaves. Ao final do contrato, o locatário deverá entregar o imóvel nas mesmas condições em que o recebeu, salvo desgaste natural decorrente do uso normal.
+
+FORO: Para dirimir quaisquer controvérsias oriundas do presente contrato, as partes elegem o foro da comarca de Belo Horizonte-MG.
+
+E, por estarem assim justas e acordadas, firmam o presente contrato em duas vias de igual teor e forma, juntamente com duas testemunhas.
