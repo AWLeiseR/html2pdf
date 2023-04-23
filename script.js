@@ -17,38 +17,8 @@ const generatePDF = (e) => {
   e.preventDefault();
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "pt", "a4");
-
-  // Busque o arquivo de texto e carregue o conteúdo dele
-  // fetch('./teste.txt')
-  //   .then(response => response.text())
-  //   .then(txt => {
-  //     // Quebre o texto em linhas
-  //     // const lines = txt.split('\n');
-
-  //     // Adicione cada linha ao documento PDF
-  //     // lines.forEach((line, i) => {
-  //     //   doc.text(line, 20, 30 + i * 20);
-  //     // });
-
-  //     // doc.splitTextToSize(txt, 7.25, )
-
-
-  //     doc.getFontList();
-
-  //     let textLines;
-  //     textLines = doc.setFont('times', 'normal')
-  //       .setFontSize(12)
-  //       .splitTextToSize(txt.innerText, 7.25)
-
-  //     let verticalOffSet = 0.5
-  //     verticalOffSet += (textLines.length + 0.5) * 12 / 72
-  //     doc.text(textLines, 0.5, verticalOffSet + 12 / 72 )
-
-  //     doc.save('teste.pdf');
-  //   });
-
-
-  fetch('./teste.txt')
+  
+fetch('./teste.txt')
   .then(response => response.text())
   .then(txt => {
     let textLines = doc.setFont('times', 'normal')
