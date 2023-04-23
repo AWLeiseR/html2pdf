@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+    <title>Contract Generator</title>
+  </head>
+  <body>
+    <form id="client_form">
+      <label>Nome</label>
+      <input id="input_client_name" type="text" placeholder="Nome" />
+      <label>RG</label>
+      <input id="input_client_RG" type="text" placeholder="RG" />
+      <label>CPF</label>
+      <input id="input_client_CPF" type="text" placeholder="CPF" />
+      <label>Porcentagem</label>
+      <input
+        id="input_client_discount"
+        type="text"
+        placeholder="Porcentagem de desconto"
+      />
+      <input
+        class="contrato"
+        id="file_input_contract"
+        type="file"
+        placeholder="contrato"
+      />
+      <button id="input_client_button">Clique</button>
+    </form>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
