@@ -23,31 +23,41 @@ function cmToPt(cm) {
 }
 
 
+const pageHeight = 842; // altura da página em pontos (A4)
+const topMargin = 30; // margem superior em pontos
+const bottomMargin = 30; // margem inferior em pontos
+const lineHeight = 20; // altura de linha em pontos
+
+function addTextToDoc(doc, text) {
+  let lines = doc.splitTextToSize(text, cmToPt(19.5));
+  let y = topMargin;
+  for (let i = 0; i < lines.length; i++) {
+    if (y + lineHeight > pageHeight - bottomMargin) {
+      doc.addPage();
+      y = topMargin;
+    }
+    doc.text(20, y, lines[i]);
+    y += lineHeight;
+  }
+}
+
 const generatePDF = (e) => {
   e.preventDefault();
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "pt", "a4");
   
-fetch('../teste.txt')
-  .then(response => response.text())
-  .then(txt => {
-
-    txt = txt.replace('[name]', client_name.value);
+  fetch('../teste.txt')
+    .then(response => response.text())
+    .then(txt => {
+      txt = txt.replace('[name]', client_name.value);
       txt = txt.replace('[RG]', client_rg.value);
       txt = txt.replace('[CPF]', client_cpf.value);
       txt = txt.replace('[%]', client_discount.value + '%');
-
-    let textLines = doc.setFont('times', 'normal')
-      .setFontSize(12)
-      .splitTextToSize(txt, cmToPt(19.5));
-    // adiciona cada linha ao documento PDF
-    for (let i = 0; i < textLines.length; i++) {
-      doc.text(textLines[i], 20, 30 + i * 20);
-    }
-    doc.save('teste.pdf');
-  });
-
+      addTextToDoc(doc, txt);
+      doc.save('teste.pdf');
+    });
 };
+
 
 
 const client_button = document
