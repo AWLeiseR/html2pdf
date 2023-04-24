@@ -37,7 +37,7 @@ function addTextToDoc(doc, text) {
       doc.addPage();
       y = topMargin;
     }
-    doc.text(20, y, lines[i]);
+    doc.text( lines[i], 20, y);
     y += lineHeight;
   }
 }
