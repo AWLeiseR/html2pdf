@@ -23,45 +23,43 @@ function cmToPt(cm) {
   return pt;
 }
 
+
+const pageHeight = 842; // altura da página em pontos (A4)
+const topMargin = 30; // margem superior em pontos
+const bottomMargin = 30; // margem inferior em pontos
+const lineHeight = 20; // altura de linha em pontos
+
+function addTextToDoc(doc, text) {
+  let lines = doc.splitTextToSize(text, cmToPt(19.5));
+  let y = topMargin;
+  for (let i = 0; i < lines.length; i++) {
+    if (y + lineHeight > pageHeight - bottomMargin) {
+      doc.addPage();
+      y = topMargin;
+    }
+    doc.text(20, y, lines[i]);
+    y += lineHeight;
+  }
+}
+
 const generatePDF = (e) => {
   e.preventDefault();
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "pt", "a4");
-
-  fetch("../teste.txt")
-    .then((response) => response.text())
-    .then((txt) => {
-      txt = txt.replace("[name]", client_name.value);
-      txt = txt.replace("[RG]", client_rg.value);
-      txt = txt.replace("[CPF]", client_cpf.value);
-      txt = txt.replace("[%]", client_discount.value + "%");
-
-      let textLines = doc
-        .setFont("times", "normal")
-        .setFontSize(12)
-        .splitTextToSize(txt, cmToPt(19.5));
-      //calculo para decidir quatas páginas vão ter
-      const pages = parseInt((30 + textLines.length * 20) / A4_HEIGHT_SIZE) + 1;
-      //loop para adicionar página
-      for (let j = 0; j < pages; j++) {
-        // // adiciona cada linha ao documento PDF
-        for (let i = 0; i < textLines.length; i++) {
-          if (30 + i * 20 > A4_HEIGHT_SIZE) {
-            textLines = textLines.slice(i);
-            break;
-          }
-
-          doc.text(textLines[i], 20, 30 + i * 20);
-        }
-        if (j + 1 < pages) {
-          doc.addPage();
-        }
-      }
-      //abre o pdf em outr pagina
-      doc.output("dataurlnewwindow");
-      // // doc.save("teste.pdf");
+  
+  fetch('../teste.txt')
+    .then(response => response.text())
+    .then(txt => {
+      txt = txt.replace('[name]', client_name.value);
+      txt = txt.replace('[RG]', client_rg.value);
+      txt = txt.replace('[CPF]', client_cpf.value);
+      txt = txt.replace('[%]', client_discount.value + '%');
+      addTextToDoc(doc, txt);
+      doc.save('teste.pdf');
     });
 };
+
+
 
 const client_button = document
   .getElementById("input_client_button")
