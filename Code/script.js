@@ -1,4 +1,5 @@
 const A4_HEIGHT_SIZE = 842;
+const A4_WIDTH_SIZE = 595;
 const client_name = document.getElementById("input_client_name");
 const client_rg = document.getElementById("input_client_RG");
 const client_cpf = document.getElementById("input_client_CPF");
@@ -30,29 +31,36 @@ const bottomMargin = 30; // margem inferior em pontos
 const lineHeight = 20; // altura de linha em pontos
 
 function addTextToDoc(doc, text) {
-  let lines = doc.splitTextToSize(text, cmToPt(19.5));
+  const font = doc.setFont('times', 'normal', 10);
+  const lines = doc.splitTextToSize(text, cmToPt(19.5), { font });
   let y = topMargin;
   for (let i = 0; i < lines.length; i++) {
     if (y + lineHeight > pageHeight - bottomMargin) {
       doc.addPage();
       y = topMargin;
     }
-    doc.text( lines[i], 20, y);
+    doc.text(lines[i], 20, y);
     y += lineHeight;
   }
 }
 
+
 const generatePDF = (e) => {
   e.preventDefault();
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("p", "pt", "a4");
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'pt',
+    format: [A4_WIDTH_SIZE, A4_HEIGHT_SIZE]
+  });
   
-  fetch('../teste.txt')
+  
+  fetch('../modelo_contrato.txt')
     .then(response => response.text())
     .then(txt => {
-      txt = txt.replace('[name]', client_name.value);
-      txt = txt.replace('[RG]', client_rg.value);
-      txt = txt.replace('[CPF]', client_cpf.value);
+      txt = txt.replace('[NOME_LOCADOR]', client_name.value);
+      txt = txt.replace('[LOCADOR_RG]', client_rg.value);
+      txt = txt.replace('[LOCADOR_CPF]', client_cpf.value);
       txt = txt.replace('[%]', client_discount.value + '%');
       addTextToDoc(doc, txt);
       doc.save('teste.pdf');
