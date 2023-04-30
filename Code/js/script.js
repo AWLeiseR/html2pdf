@@ -36,7 +36,7 @@ function addTextToDoc(doc, text) {
   const lines = doc.splitTextToSize(text, cmToPt(19.5), { font });
   let y = topMargin;
   for (let i = 0; i < lines.length; i++) {
-    if (y + lineHeight > pageHeight - bottomMargin) {
+    if (y +  lineHeight > pageHeight - bottomMargin) {
       doc.addPage();
       y = topMargin;
     }
@@ -73,6 +73,6 @@ const generatePDF = (e) => {
     });
 };
 
-const client_button = document
-  .getElementById("input_client_button")
-  .addEventListener("click", generatePDF);
+// const client_button = document
+//   .getElementById("input_client_button")
+//   .addEventListener("click", generatePDF);
