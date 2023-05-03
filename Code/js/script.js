@@ -32,15 +32,31 @@ function cmToPt(cm) {
 }
 
 function addTextToDoc(doc, text) {
-  const font = doc.setFont("times", "normal", 10);
-  const lines = doc.splitTextToSize(text, cmToPt(19.5), { font });
+  const font = doc.setFont("times", "normal");
+  doc.setFontSize(11);
+  const lines = doc.splitTextToSize(text, cmToPt(16), { font });
   let y = topMargin;
   for (let i = 0; i < lines.length; i++) {
-    if (y +  lineHeight > pageHeight - bottomMargin) {
+    if (y + lineHeight > pageHeight - bottomMargin) {
       doc.addPage();
       y = topMargin;
     }
-    doc.text(lines[i], 20, y);
+    const parts = lines[i].split(/(<b>.*?<\/b>)/gim);
+    let offset = 0;
+    for (let j = 0; j < parts.length; j++) {
+      if (parts[j].startsWith("<b>") && parts[j].endsWith("</b>")) {
+        doc.setFont("times", "bold");
+        offset = doc.getStringUnitWidth(parts[j].slice(3, -4)) * 11;
+        doc.text(parts[j].slice(3, -4), cmToPt(3), y);
+      } else if (j > 0 && offset > 0) {
+        doc.setFont("times", "normal");
+        doc.text(parts[j], cmToPt(3) + offset, y);
+        offset = 0;
+      } else {
+        doc.setFont("times", "normal");
+        doc.text(parts[j], cmToPt(3) + offset, y);
+      }
+    }
     y += lineHeight;
   }
 }
@@ -69,10 +85,12 @@ const generatePDF = (e) => {
       txt = txt.replace(regex_cpf, client_cpf.value);
       txt = txt.replace(regex_discount, client_discount.value + "%");
       addTextToDoc(doc, txt);
-      doc.save("contrato.pdf");
+      doc.setLineWidth(500);
+      // doc.save("contrato.pdf");
+      doc.output("dataurlnewwindow");
     });
 };
 
-// const client_button = document
-//   .getElementById("input_client_button")
-//   .addEventListener("click", generatePDF);
+const client_button = document
+  .getElementById("input_client_button")
+  .addEventListener("click", generatePDF);
