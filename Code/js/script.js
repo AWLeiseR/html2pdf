@@ -59,40 +59,37 @@ function addTextToDoc(doc, text) {
           offset = doc.getStringUnitWidth(boldLine[j]) * 11;
         }
       }
-    } else {
-      const line = boldLine[0];
-      if (line.indexOf("<b>") > -1) {
-        let offset = 0;
-        let semiLineBold = line.split(/(<b>.*)/g);
-        for (let j = 0; j < semiLineBold.length; j++) {
-          if (semiLineBold[j].startsWith("<b>")) {
-            doc.setFont("times", "bold");
-            doc.text(semiLineBold[j].slice(3), cmToPt(3), y);
-            offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
-          } else {
-            doc.setFont("times", "normal");
-            doc.text(semiLineBold[j], cmToPt(3) + offset, y);
-            offset = 0;
-          }
+    } else if (boldLine[0].indexOf("<b>") > -1) {
+      let offset = 0;
+      let semiLineBold = boldLine[0].split(/(<b>.*)/g);
+      for (let j = 0; j < semiLineBold.length; j++) {
+        if (semiLineBold[j].startsWith("<b>")) {
+          doc.setFont("times", "bold");
+          doc.text(semiLineBold[j].slice(3), cmToPt(3), y);
+          offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
+        } else {
+          doc.setFont("times", "normal");
+          doc.text(semiLineBold[j], cmToPt(3) + offset, y);
+          offset = 0;
         }
-      } else if (line.indexOf("</b>") > -1) {
-        let offset = 0;
-        let semiLineBold = line.split(/(.*<\/b>)/g);
-        for (let j = 0; j < semiLineBold.length; j++) {
-          if (semiLineBold[j].endsWith("</b>")) {
-            doc.setFont("times", "bold");
-            doc.text(semiLineBold[j].slice(0, -4), cmToPt(3), y);
-            offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
-          } else {
-            doc.setFont("times", "normal");
-            doc.text(semiLineBold[j], cmToPt(3) + offset, y);
-            offset = 0;
-          }
-        }
-      } else {
-        doc.setFont("times", "normal");
-        doc.text(boldLine, cmToPt(3), y);
       }
+    } else if (boldLine[0].indexOf("</b>") > -1) {
+      let offset = 0;
+      let semiLineBold = boldLine[0].split(/(.*<\/b>)/g);
+      for (let j = 0; j < semiLineBold.length; j++) {
+        if (semiLineBold[j].endsWith("</b>")) {
+          doc.setFont("times", "bold");
+          doc.text(semiLineBold[j].slice(0, -4), cmToPt(3), y);
+          offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
+        } else {
+          doc.setFont("times", "normal");
+          doc.text(semiLineBold[j], cmToPt(3) + offset, y);
+          offset = 0;
+        }
+      }
+    } else {
+      doc.setFont("times", "normal");
+      doc.text(boldLine, cmToPt(3), y);
     }
     y += lineHeight;
   }
