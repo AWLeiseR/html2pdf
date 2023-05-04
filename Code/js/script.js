@@ -31,6 +31,34 @@ function cmToPt(cm) {
   return pt;
 }
 
+function formatDate(offsetYear) {
+  const months = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = months[currentDate.getMonth()];
+  const year = currentDate.getFullYear();
+
+  const formattedDate = `${day < 10 ? "0" : ""} de ${month} de ${
+    year + offsetYear
+  }`;
+
+  return formattedDate;
+}
+
 function addTextToDoc(doc, text) {
   const font = doc.setFont("times", "normal");
   doc.setFontSize(11);
@@ -112,12 +140,16 @@ const generatePDF = (e) => {
       const regex_rg = /LOCADOR_RG/g;
       const regex_cpf = /LOCADOR_CPF/g;
       const regex_discount = /DESCONTO_LOCADOR/g;
+      const regex_date_start = /DATA_HOJE/g;
+      const regex_date_end = /DATA_FIM/g;
 
       txt = txt.replace(regex_name, client_name.value);
       txt = txt.replace(regex_rg, client_rg.value);
       txt = txt.replace(regex_address, client_address.value);
       txt = txt.replace(regex_cpf, client_cpf.value);
       txt = txt.replace(regex_discount, client_discount.value + "%");
+      txt = txt.replace(regex_date_start, formatDate(0));
+      txt = txt.replace(regex_date_end, formatDate(5));
       addTextToDoc(doc, txt);
       doc.setLineWidth(500);
       // doc.save("contrato.pdf");
