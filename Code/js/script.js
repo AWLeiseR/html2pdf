@@ -2,8 +2,8 @@ const A4_HEIGHT_SIZE = 842;
 const A4_WIDTH_SIZE = 595;
 
 const pageHeight = 842; // altura da página em pontos (A4)
-const topMargin = 30; // margem superior em pontos
-const bottomMargin = 30; // margem inferior em pontos
+const topMargin = 40; // margem superior em pontos
+const bottomMargin = 40; // margem inferior em pontos
 const lineHeight = 20; // altura de linha em pontos
 
 const client_name = document.getElementById("input_client_name");
@@ -36,25 +36,62 @@ function addTextToDoc(doc, text) {
   doc.setFontSize(11);
   const lines = doc.splitTextToSize(text, cmToPt(16), { font });
   let y = topMargin;
-  for (let i = 0; i < lines.length; i++) {
+
+  doc.setFont("times", "bold");
+  doc.text(lines[0], cmToPt(7), y);
+  y += lineHeight;
+  for (let i = 1; i < lines.length; i++) {
     if (y + lineHeight > pageHeight - bottomMargin) {
       doc.addPage();
       y = topMargin;
     }
-    const parts = lines[i].split(/(<b>.*?<\/b>)/gim);
-    let offset = 0;
-    for (let j = 0; j < parts.length; j++) {
-      if (parts[j].startsWith("<b>") && parts[j].endsWith("</b>")) {
-        doc.setFont("times", "bold");
-        offset = doc.getStringUnitWidth(parts[j].slice(3, -4)) * 11;
-        doc.text(parts[j].slice(3, -4), cmToPt(3), y);
-      } else if (j > 0 && offset > 0) {
-        doc.setFont("times", "normal");
-        doc.text(parts[j], cmToPt(3) + offset, y);
-        offset = 0;
+    const boldLine = lines[i].split(/(<b>.*?<\/b>)/gim);
+    if (boldLine.length > 1) {
+      let offset = 0;
+      for (let j = 0; j < boldLine.length; j++) {
+        if (boldLine[j].startsWith("<b>") && boldLine[j].endsWith("</b>")) {
+          doc.setFont("times", "bold");
+          doc.text(boldLine[j].slice(3, -4), cmToPt(3) + offset, y);
+          offset = doc.getStringUnitWidth(boldLine[j].slice(3, -4)) * 11;
+        } else {
+          doc.setFont("times", "normal");
+          doc.text(boldLine[j], cmToPt(3) + offset, y);
+          offset = doc.getStringUnitWidth(boldLine[j]) * 11;
+        }
+      }
+    } else {
+      const line = boldLine[0];
+      if (line.indexOf("<b>") > -1) {
+        let offset = 0;
+        let semiLineBold = line.split(/(<b>.*)/g);
+        for (let j = 0; j < semiLineBold.length; j++) {
+          if (semiLineBold[j].startsWith("<b>")) {
+            doc.setFont("times", "bold");
+            doc.text(semiLineBold[j].slice(3), cmToPt(3), y);
+            offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
+          } else {
+            doc.setFont("times", "normal");
+            doc.text(semiLineBold[j], cmToPt(3) + offset, y);
+            offset = 0;
+          }
+        }
+      } else if (line.indexOf("</b>") > -1) {
+        let offset = 0;
+        let semiLineBold = line.split(/(.*<\/b>)/g);
+        for (let j = 0; j < semiLineBold.length; j++) {
+          if (semiLineBold[j].endsWith("</b>")) {
+            doc.setFont("times", "bold");
+            doc.text(semiLineBold[j].slice(0, -4), cmToPt(3), y);
+            offset = doc.getStringUnitWidth(semiLineBold[j].slice(3)) * 11;
+          } else {
+            doc.setFont("times", "normal");
+            doc.text(semiLineBold[j], cmToPt(3) + offset, y);
+            offset = 0;
+          }
+        }
       } else {
         doc.setFont("times", "normal");
-        doc.text(parts[j], cmToPt(3) + offset, y);
+        doc.text(boldLine, cmToPt(3), y);
       }
     }
     y += lineHeight;
