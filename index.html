@@ -21,17 +21,28 @@
     <form id="client_form">
       <label>Nome</label>
       <input id="input_client_name" type="text" placeholder="Nome" />
-      <label>RG</label>
-      <input id="input_client_RG" type="text" placeholder="RG" />
       <label>CPF</label>
       <input id="input_client_CPF" type="text" placeholder="CPF" />
       <label>Endereço completo</label>
       <input id="input_client_address" type="text" placeholder="Endereço" />
+      <label>Número da unidade consumidora</label>
+      <input
+        id="input_client_UC"
+        type="text"
+        placeholder="Digite o nº da unidade consumidora"
+      />
+      <label>E-mail</label>
+      <input
+        id="input_client_email"
+        type="text"
+        placeholder="Digite seu endereço de e-mail"
+      />
       <label>Porcentagem</label>
       <input
-      id="input_client_discount"
-      type="text"
-      placeholder="Porcentagem de desconto"
+        id="input_client_discount"
+        type="number"
+        step=".01"
+        placeholder="Porcentagem de desconto"
       />
       <button id="input_client_button">Gerar contrato</button>
     </form>
